@@ -1,0 +1,12 @@
+{
+  "domain": "sunways_local",
+  "name": "Sunways Local",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/Chriss-Leo/sunways",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "loggers": ["sunways"],
+  "requirements": ["sunways==0.0.5"],
+  "version": "0.1.0"
+}

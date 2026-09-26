@@ -1,0 +1,17 @@
+{
+  "title": "Sunways Local",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Připojení k místnímu měniči Sunways",
+        "description": "Zadejte pevnou IP adresu měniče nebo komunikačního donglu. Integrace je pouze pro čtení.",
+        "data": {"host": "IP adresa", "port": "UDP port"}
+      }
+    },
+    "error": {"cannot_connect": "K měniči se nepodařilo připojit."},
+    "abort": {"already_configured": "Tento měnič je již nastaven."}
+  },
+  "options": {
+    "step": {"init": {"title": "Nastavení načítání", "data": {"scan_interval": "Interval načítání"}}}
+  }
+}

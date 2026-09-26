@@ -1,0 +1,17 @@
+{
+  "title": "Sunways Local",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to a local Sunways inverter",
+        "description": "Enter the fixed IP address of the inverter or communication dongle. This integration is read-only.",
+        "data": {"host": "IP address", "port": "UDP port"}
+      }
+    },
+    "error": {"cannot_connect": "Unable to connect to the inverter."},
+    "abort": {"already_configured": "This inverter is already configured."}
+  },
+  "options": {
+    "step": {"init": {"title": "Polling settings", "data": {"scan_interval": "Polling interval"}}}
+  }
+}

@@ -1,0 +1,12 @@
+Sunways Local for Home Assistant
+
+This integration depends on the sunways Python library by Chriss-Leo:
+https://github.com/Chriss-Leo/sunways
+
+The dependency is distributed under the MIT License. The dependency is not
+vendored into this repository and is installed by Home Assistant as declared
+in custom_components/sunways_local/manifest.json.
+
+Sunways is a trademark of its respective owner. This independent community project
+is not affiliated with or endorsed by Sunways Technologies.
+
