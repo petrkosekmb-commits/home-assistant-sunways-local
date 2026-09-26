@@ -3,7 +3,7 @@
   "name": "Sunways Local",
   "codeowners": [],
   "config_flow": true,
-  "documentation": "https://github.com/Chriss-Leo/sunways",
+  "documentation": "https://github.com/petrkosekmb-commits/home-assistant-sunways-local",
   "integration_type": "device",
   "iot_class": "local_polling",
   "loggers": ["sunways"],
