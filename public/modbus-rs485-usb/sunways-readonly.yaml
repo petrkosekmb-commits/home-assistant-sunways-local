@@ -1,0 +1,1023 @@
+# Sunways Modbus RTU / RS485-USB: read-only sensor example.
+# Based on the user's existing configuration; original attribution retained below.
+# Replace the USB port placeholder before use.
+# modified by Jan Jirousek/25.01.2024
+#   sunways
+modbus:  
+  - name: sunways 
+    # type: tcp
+    # port: 502
+    type: serial
+    baudrate: 9600
+    bytesize: 8
+    method: rtu
+    parity: N
+    port: /dev/serial/by-id/usb-YOUR_RS485_ADAPTER-if00-port0
+    stopbits: 1
+    sensors:
+      - name: Sunways Inverter SN
+        unique_id: sunways_inverter_sn
+        slave: 247
+        address: 10000
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 86400
+      - name: Sunways Firmware Version2
+        unique_id: sunways_firmware_version2
+        slave: 247
+        address: 10013
+        input_type: holding
+        count: 2
+        data_type: custom
+        structure: ">BBBB"
+        scan_interval: 60
+      - name: Sunways Inverter Running Status #0:wait, wait for on-grid 1:check, self-check 2:On Grid 3:fault 4:flash, firmware update 5.Off Grid
+        unique_id: sunways_inverter_running_status
+        slave: 247
+        address: 10105
+        input_type: holding
+        data_type: int16
+        scan_interval: 10
+      - name: Sunways Phase A Power on Meter
+        unique_id: sunways_phase_a_power_on_meter
+        slave: 247
+        address: 10994
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Phase B Power on Meter
+        unique_id: sunways_phase_b_power_on_meter
+        slave: 247
+        address: 10996
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Phase C Power on Meter
+        unique_id: sunways_phase_c_power_on_meter
+        slave: 247
+        address: 10998
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Total Power on Meter        #Grid power
+        unique_id: sunways_total_power_on_meter
+        slave: 247
+        address: 11000
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Grid Injection Energy on that day   #export/day
+        unique_id: sunways_grid_injection_energy_on_that_day
+        slave: 247
+        address: 41000
+        scale: 0.1
+        precision: 2
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Grid Purchasing Energy on that day
+        unique_id: sunways_grid_purchasing_energy_on_that_day
+        slave: 247
+        address: 41001
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Backup Output Energy on that day
+        unique_id: sunways_backup_output_energy_on_that_day
+        slave: 247
+        address: 41002
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Battery Charge Energy on that day
+        unique_id: sunways_battery_charge_energy_on_that_day
+        slave: 247
+        address: 41003
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Battery Discharge Energy on that day
+        unique_id: sunways_battery_discharge_energy_on_that_day
+        slave: 247
+        address: 41004
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways PV Generation Energy on that day    #E-today from GUI
+        unique_id: sunways_pv_generation_energy_on_that_day
+        slave: 247
+        address: 41005
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Loading Energy on that day
+        unique_id: sunways_loading_energy_on_that_day
+        slave: 247
+        address: 41006
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Energy Purchased from Grid on that day  #on inverter side
+        unique_id: sunways_energy_purchased_from_grid_on_that_day
+        slave: 247
+        address: 41008
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Total Energy injected to grid
+        unique_id: sunways_total_energy_injected_to_grid
+        slave: 247
+        address: 41102
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Energy Purchased from Grid from Meter
+        unique_id: sunways_total_energy_purchased_from_grid_from_meter
+        slave: 247
+        address: 41104
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Output Energy on backup port
+        unique_id: sunways_total_output_energy_on_backup_port
+        slave: 247
+        address: 41106
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Energy Charged to Battery
+        unique_id: sunways_total_energy_charged_to_battery
+        slave: 247
+        address: 41108
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Energy Discharged from Battery
+        unique_id: sunways_total_energy_discharged_from_battery
+        slave: 247
+        address: 41110
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total PV Generation
+        unique_id: sunways_total_pv_generation
+        slave: 247
+        address: 41112
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Loading Energy consumed at grid side  #totoal load consumption
+        unique_id: sunways_total_loading_energy_consumed_at_grid_side
+        slave: 247
+        address: 41114
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Energy Purchased from Grid at inverter side
+        unique_id: sunways_total_energy_purchased_from_grid_at_inverter_side
+        slave: 247
+        address: 41118
+        scale: 0.1
+        precision: 1
+        input_type: holding
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Grid-Injection Energy on Meter
+        unique_id: sunways_total_grid_injection_energy_on_meter
+        slave: 247
+        address: 11002
+        input_type: holding
+        state_class: total_increasing
+        unit_of_measurement: kWh
+        device_class: energy
+        scale: 0.01
+        precision: 2
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Total Purchasing Energy from Grid on Meter
+        unique_id: sunways_total_purchasing_energy_from_grid_on_meter
+        slave: 247
+        address: 11004
+        input_type: holding
+        state_class: total_increasing
+        unit_of_measurement: kWh
+        device_class: energy
+        scale: 0.01
+        precision: 2
+        data_type: int32
+        scan_interval: 300
+      - name: Sunways Grid Lines A/B Voltage
+        unique_id: sunways_grid_lines_a_b_voltage
+        slave: 247
+        address: 11006
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Lines B/C Voltage
+        unique_id: sunways_grid_lines_b_c_voltage
+        slave: 247
+        address: 11007
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Lines C/A Voltage
+        unique_id: sunways_grid_lines_c_a_voltage
+        slave: 247
+        address: 11008
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16        
+        scan_interval: 30
+      - name: Sunways Grid Phase A Voltage
+        unique_id: sunways_grid_phase_a_voltage
+        slave: 247
+        address: 11009
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Phase B Voltage
+        unique_id: sunways_grid_phase_b_voltage
+        slave: 247
+        address: 11011
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Phase C Voltage
+        unique_id: sunways_grid_pase_c_voltage
+        slave: 247
+        address: 11013
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Phase A Current
+        unique_id: sunways_grid_phase_a_current
+        slave: 247
+        address: 11010
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Phase B Current
+        unique_id: sunways_grid_phase_b_current
+        slave: 247
+        address: 11012
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways Grid Phase C Current
+        unique_id: sunways_grid_phase_c_current
+        slave: 247
+        address: 11014
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: FVE_Grid Frequency     ####NENI###
+        slave: 247
+        address: 11015
+        unit_of_measurement: Hz
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 1
+        scan_interval: 5
+      - name: Sunways P AC
+        unique_id: sunways_p_ac
+        slave: 247
+        address: 11016
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Total PV Generation on that day  #energy today
+        unique_id: sunways_total_pv_generation_on_that_day
+        slave: 247
+        address: 11018
+        input_type: holding
+        state_class: total_increasing
+        device_class: energy
+        unit_of_measurement: kWh
+        scale: 0.1
+        precision: 1
+        data_type: int32
+        scan_interval: 60
+      - name: Sunways Total PV Generation from Installation  #energy total
+        unique_id: sunways_total_pv_generation_from_installation
+        slave: 247
+        address: 11020
+        input_type: holding
+        state_class: total_increasing
+        device_class: energy
+        unit_of_measurement: kWh
+        scale: 0.1
+        precision: 1
+        data_type: int32
+        scan_interval: 300
+      - name: FVE_Total PV Generation  Time from Installation           ####NENALEZENO###
+        slave: 247
+        address: 11022
+        unit_of_measurement: H
+        state_class: measurement
+        scale: 1
+        offset: 0
+        precision: 1
+        scan_interval: 60
+        data_type: int32
+      - name: Sunways PV Input Total Power        #PV power, panel actual power
+        unique_id: sunways_pv_input_total_power
+        slave: 247
+        address: 11028
+        input_type: holding
+        state_class: measurement
+        device_class: power
+        unit_of_measurement: kW
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Temperature Sensor 1
+        unique_id: sunways_temperature_sensor_1
+        slave: 247
+        address: 11032
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: °C
+        device_class: temperature
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Temperature Sensor 2
+        unique_id: sunways_temperature_sensor_2
+        slave: 247
+        address: 11033
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: °C
+        device_class: temperature
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Temperature Sensor 3
+        unique_id: sunways_temperature_sensor_3
+        slave: 247
+        address: 11034
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: °C
+        device_class: temperature
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Temperature Sensor 4
+        unique_id: sunways_temperature_sensor_4
+        slave: 247
+        address: 11035
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: °C
+        device_class: temperature
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways PV1 Voltage
+        unique_id: sunways_pv1_voltage
+        slave: 247
+        address: 11038
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways PV2 Voltage
+        unique_id: sunways_pv2_voltage
+        slave: 247
+        address: 11040
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways PV1 Current
+        unique_id: sunways_pv1_current
+        slave: 247
+        address: 11039
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways PV2 Current
+        unique_id: sunways_pv2_current
+        slave: 247
+        address: 11041
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: Sunways PV1 Input Power
+        unique_id: sunways_pv1_input_power
+        slave: 247
+        address: 11062
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways PV2 Input Power
+        unique_id: sunways_pv2_input_power
+        slave: 247
+        address: 11064
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways ARM Fault Flag1 #Table 3.3 Troubleshooting
+        unique_id: sunways_arm_fault_flag1
+        slave: 247
+        address: 18000
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+      - name: Sunways Fault Flag1 #Table 3.3 Troubleshooting
+        unique_id: sunways_fault_flag1
+        slave: 247
+        address: 10112
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+      - name: Sunways Fault Flag2 #Table 3.3 Troubleshooting
+        unique_id: sunways_fault_flag2
+        slave: 247
+        address: 10114
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+      - name: Sunways Fault Flag3 #Table 3.3 Troubleshooting
+        unique_id: sunways_fault_flag3
+        slave: 247
+        address: 10116
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+      - name: FVE_Backup_A_V
+        slave: 247
+        address: 40200
+        unit_of_measurement: V
+        state_class: measurement
+        scale: 0.1
+        offset: 0
+        precision: 1
+        scan_interval: 10
+      - name: FVE_Backup_A_I
+        slave: 247
+        address: 40201
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: FVE_Backup_A_F
+        slave: 247
+        address: 40202
+        unit_of_measurement: Hz
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 1
+        scan_interval: 5
+      - name: FVE_Backup_A_P
+        slave: 247
+        address: 40204
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: FVE_Backup_B_V
+        slave: 247
+        address: 40210
+        unit_of_measurement: V
+        state_class: measurement
+        scale: 0.1
+        offset: 0
+        precision: 1
+        scan_interval: 10
+      - name: FVE_Backup_B_I
+        slave: 247
+        address: 40211
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: FVE_Backup_B_F
+        slave: 247
+        address: 40212
+        unit_of_measurement: Hz
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 1
+        scan_interval: 5
+      - name: FVE_Backup_B_P
+        slave: 247
+        address: 40214
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: FVE_Backup_C_V
+        slave: 247
+        address: 40220
+        unit_of_measurement: V
+        state_class: measurement
+        scale: 0.1
+        offset: 0
+        precision: 1
+        scan_interval: 10
+      - name: FVE_Backup_C_I
+        slave: 247
+        address: 40221
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 30
+      - name: FVE_Backup_C_F
+        slave: 247
+        address: 40222
+        unit_of_measurement: Hz
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 1
+        scan_interval: 5
+      - name: FVE_Backup_C_P
+        slave: 247
+        address: 40224
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Total Backup P          #load power, total active power
+        unique_id: sunways_total_backup_p
+        slave: 247
+        address: 40230
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: FVE_Invt_A_P
+        slave: 247
+        address: 40236
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: FVE_Invt_B_P
+        slave: 247
+        address: 40242
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: FVE_Invt_C_P
+        slave: 247
+        address: 40248
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Battery V #DC Voltage
+        unique_id: sunways_battery_v
+        slave: 247
+        address: 40254
+        input_type: holding
+        unit_of_measurement: V
+        state_class: measurement
+        device_class: voltage
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 10
+      - name: Sunways Battery I #DC Current
+        unique_id: sunways_battery_i
+        slave: 247
+        address: 40255
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: A
+        device_class: current
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 10
+      - name: Sunways Battery P           #Battery Power
+        unique_id: sunways_battery_p
+        slave: 247
+        address: 40258
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: kW
+        device_class: power
+        scale: 0.001
+        precision: 3
+        data_type: int32
+        scan_interval: 10
+      - name: Sunways Battery Mode #0:discharge;1:charge
+        unique_id: sunways_battery_mode
+        slave: 247
+        address: 40256
+        input_type: holding
+        data_type: int16
+        scan_interval: 10
+#BMS registers
+      - name: Sunways BMS Software Version
+        unique_id: sunways_bms_software_version
+        slave: 247
+        address: 42003
+        input_type: holding
+        data_type: int16
+        scan_interval: 600
+      - name: Sunways BMS Hardware Version
+        unique_id: sunways_bms_hardware_version
+        slave: 247
+        address: 42004
+        input_type: holding
+        data_type: int16
+        scan_interval: 600
+      - name: FVE_BMS Charge Imax
+        slave: 247
+        address: 42005
+        unit_of_measurement: A
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 0
+        scan_interval: 10
+      - name: FVE_BMS Discharge Imax
+        slave: 247
+        address: 42006
+        unit_of_measurement: A
+        state_class: measurement
+        scale: 0.01
+        offset: 0
+        precision: 0
+        scan_interval: 10
+      - name: Sunways Battery SOC
+        unique_id: sunways_battery_soc
+        slave: 247
+        address: 43000
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: '%'
+        device_class: battery
+        scale: 0.01
+        precision: 2
+        data_type: int16
+        scan_interval: 10
+      - name: Sunways Battery SOH
+        unique_id: sunways_battery_soh
+        slave: 247
+        address: 43001
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: '%'
+        device_class: battery
+        scale: 0.01
+        precision: 2
+        data_type: int16
+        scan_interval: 3600
+      - name: Sunways BMS Status
+        unique_id: sunways_bms_status
+        slave: 247
+        address: 43002
+        input_type: holding
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways BMS Pack Temperature
+        unique_id: sunways_bms_pack_temperature
+        slave: 247
+        address: 43003
+        input_type: holding
+        state_class: measurement
+        unit_of_measurement: °C
+        device_class: temperature
+        scale: 0.1
+        precision: 1
+        data_type: int16
+        scan_interval: 60
+      - name: FVE_Max Cell Temperature ID
+        slave: 247
+        address: 43008
+        unit_of_measurement: A
+        scale: 1
+        offset: 0
+        precision: 0
+        scan_interval: 10
+      - name: FVE_Max Cell Temperature
+        slave: 247
+        address: 43009
+        unit_of_measurement: °C
+        state_class: measurement
+        scale: 0.1
+        offset: 0
+        precision: 1
+        scan_interval: 5
+        device_class: "temperature"
+      - name: FVE_Min Cell Temperature ID
+        slave: 247
+        address: 43010
+        unit_of_measurement: A
+        scale: 1
+        offset: 0
+        precision: 0
+        scan_interval: 10
+      - name: FVE_Min Cell Temperature
+        slave: 247
+        address: 43011
+        unit_of_measurement: °C
+        state_class: measurement
+        scale: 0.1
+        offset: 0
+        precision: 1
+        scan_interval: 5
+        device_class: "temperature"
+      - name: Sunways BMS Error Code
+        unique_id: sunways_bms_error_code
+        slave: 247
+        address: 43016
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+      - name: Sunways BMS Warn Code
+        unique_id: sunways_bms_warn_code
+        slave: 247
+        address: 43018
+        input_type: holding
+        data_type: int32
+        scan_interval: 60
+#RW values
+      - name: Sunways Hybrid Inverter Working Mode Setting  #257=General mode; 258=Economic mode; 259=UPS mode; 512=Off grid mode
+        unique_id: sunways_hybrid_inverter_working_mode_setting #RW
+        slave: 247
+        address: 50000
+        input_type: holding
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Grid Injection Power Limit Setting  #[0.0%-100.0%]
+        unique_id: sunways_grid_injection_power_limit_setting #RW
+        slave: 247
+        address: 25103
+        input_type: holding
+        scale: 0.1    #spec: 1000
+        precision: 1
+        data_type: int16
+        scan_interval: 110
+      - name: Sunways On-grid Battery End SOC  #[0.0%-100.0%]
+        unique_id: sunways_on_grid_battery_end_soc #RW
+        slave: 247
+        address: 52503
+        input_type: holding
+        scale: 0.1    #spec: 1000
+        precision: 1
+        data_type: int16
+        scan_interval: 360
+      - name: Sunways Off-grid Battery End SOC  #[0.0%-100.0%]
+        unique_id: sunways_off_grid_battery_end_soc #RW
+        slave: 247
+        address: 52505
+        input_type: holding
+        scale: 0.1    #spec: 1000
+        precision: 1
+        data_type: int16
+        scan_interval: 360
+      - name: Sunways Ecomode Period Enable Flag #bit0- bit5 stands for period1-period6, bit7-bit15 reserved; 0: disable 1: enable
+      #1=one line; #3=2 lines; 7=4lines; 15=5lines; 31=6lines
+        unique_id: sunways_ecomode_period_enable_flag
+        slave: 247
+        address: 53006
+        input_type: holding
+        data_type: int16
+        scan_interval: 60
+      - name: Sunways Ecomode Period1 Struct
+        unique_id: sunways_ecomode_period1_struct
+        slave: 247
+        address: 53007
+        input_type: holding
+        count: 7
+        data_type: custom
+        structure: ">HHHHHHH"
+        scan_interval: 60
+      - name: Sunways Ecomode Period2 Struct
+        unique_id: sunways_ecomode_period2_struct
+        slave: 247
+        address: 53014
+        input_type: holding
+        count: 7
+        data_type: custom
+        structure: ">HHHHHHH"
+        scan_interval: 60

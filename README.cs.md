@@ -54,3 +54,7 @@ Vývoj a údržbu můžete podpořit na [Buy Me a Coffee](https://buymeacoffee.c
 
 
 
+
+## Přímé připojení přes RS485–USB (Modbus)
+
+Samostatná [veřejná konfigurace Modbus a český návod](public/modbus-rs485-usb/README.cs.md) obsahují příklad pouze pro čtení a mapu registrů. Toto USB zapojení je oddělené od síťové integrace Sunways Local výše; podpora USR-DR134 není ověřena.

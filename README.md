@@ -53,3 +53,7 @@ Licensed under the [Apache License 2.0](LICENSE).
 Support development and maintenance on [Buy Me a Coffee](https://buymeacoffee.com/kojakcio).
 
 
+
+## Direct RS485–USB connection (Modbus)
+
+A separate [public Modbus configuration and English guide](public/modbus-rs485-usb/README.md) provide a read-only example and register map. This USB setup is separate from the network-based Sunways Local integration described above; USR-DR134 compatibility is unverified.
