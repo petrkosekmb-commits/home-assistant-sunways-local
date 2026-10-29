@@ -8,5 +8,5 @@
   "iot_class": "local_polling",
   "loggers": ["sunways"],
   "requirements": ["sunways==0.0.5"],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }

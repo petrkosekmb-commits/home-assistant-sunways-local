@@ -44,7 +44,10 @@ class SunwaysLocalConfigFlow(ConfigFlow, domain=DOMAIN):
                 inverter = await async_connect_inverter(user_input)
                 serial = inverter.serial_number
                 await self.async_set_unique_id(serial or user_input[CONF_HOST])
-                self._abort_if_unique_id_configured(updates={CONF_HOST: user_input[CONF_HOST]})
+                self._abort_if_unique_id_configured(updates={
+                    CONF_HOST: user_input[CONF_HOST],
+                    CONF_PORT: user_input.get(CONF_PORT, DEFAULT_PORT),
+                })
                 title = " ".join(part for part in (inverter.model, serial) if part) or user_input[CONF_HOST]
                 return self.async_create_entry(title=title, data=user_input)
             except (InverterError, TimeoutError, OSError, ValueError, TypeError):
